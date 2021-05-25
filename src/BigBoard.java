@@ -1,6 +1,7 @@
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class BigBoard extends JPanel{
 
@@ -14,28 +15,25 @@ public class BigBoard extends JPanel{
     SmallBoardContainer six;
     SmallBoardContainer seven;
     SmallBoardContainer eight;
+    ArrayList<SmallBoardContainer> smallBoards;
+
     public BigBoard() {
-        one = new SmallBoardContainer();
-        nine = new SmallBoardContainer();
-        two = new SmallBoardContainer();
-        three = new SmallBoardContainer();
-        four = new SmallBoardContainer(); 
-        five = new SmallBoardContainer();
-        six = new SmallBoardContainer();
-        seven = new SmallBoardContainer();
-        eight = new SmallBoardContainer();
+        smallBoards = new ArrayList<SmallBoardContainer>();
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                smallBoards.add(new SmallBoardContainer(new Point(i, j)));
+            }
+        }
+
         grid = new GridLayout(3,3,15,15);
 
         setLayout(grid);
-        add(one);
-        add(two);
-        add(three);
-        add(four);
-        add(five);
-        add(six);
-        add(seven);
-        add(eight);
-        add(nine);
+        for (SmallBoardContainer e : smallBoards)
+        {
+            add(e);
+        }
 
         setBackground(Color.BLACK);
         setVisible(true);
