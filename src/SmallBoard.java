@@ -69,12 +69,10 @@ public class SmallBoard extends JPanel implements ActionListener {
                 add(b);
                 b.setBorderPainted(false);
                 b.addActionListener(this);
+                b.setDisabledIcon(x);
                 b.setBackground(Color.WHITE);
             }
         }
-
-        //setBackground(Color.BLACK);
-
         setVisible(true);
 
     }
@@ -90,7 +88,9 @@ public class SmallBoard extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent arg0) {
         JButton b = (JButton) arg0.getSource();
+        b.setIcon(x);
         b.setDisabledIcon(x);
+
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
                 if (buttons[r][c].equals(b)) {
@@ -99,20 +99,26 @@ public class SmallBoard extends JPanel implements ActionListener {
                     buttons[r][c].setEnabled(false);
                     
                 }
+                System.out.print(board[r][c] + " ");
             }
+            System.out.println();
         }
-        System.out.println(board);
+        
     }
 
     public void toggleActive() {
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
-                if (board[r][c] != 0) {
+                if (board[r][c] == 0) {
                     buttons[r][c].setEnabled(!isActive);
                 }
             }
         }
         isActive = !isActive;
+    }
+
+    public int[][] getBoard() {
+        return board;
     }
     
 }
