@@ -1,3 +1,4 @@
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -5,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Point;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 
 public class SmallBoard extends JPanel implements ActionListener {
@@ -25,7 +27,13 @@ public class SmallBoard extends JPanel implements ActionListener {
     JButton eight;
     JButton nine;
 
+    ImageIcon x;
+    ImageIcon o;
+
     public SmallBoard(Point i) {
+        x = new ImageIcon("src/images/x.png");
+        o = new ImageIcon("src/images/o.png");
+
         index = i;
         board = new int[][] {{0,0,0},
                             {0,0,0},
@@ -60,24 +68,50 @@ public class SmallBoard extends JPanel implements ActionListener {
             for (JButton b: bArr) {
                 add(b);
                 b.setBorderPainted(false);
+                b.addActionListener(this);
                 b.setBackground(Color.WHITE);
             }
         }
 
-        setBackground(Color.BLACK);
-        toggleActive();
+        //setBackground(Color.BLACK);
+
         setVisible(true);
+
     }
+
+    @Override
+    public void paintComponent(Graphics arg0) {
+        // TODO Auto-generated method stub
+        super.paintComponent(arg0);
+        arg0.setColor(Color.BLACK);
+        arg0.fillRect(5, 5, getWidth()-10, getHeight()-10);
+    }
+
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
-
+        JButton b = (JButton) arg0.getSource();
+        b.setDisabledIcon(x);
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                if (buttons[r][c].equals(b)) {
+                    board[r][c] = 1;
+                    
+                    buttons[r][c].setEnabled(false);
+                    
+                }
+            }
+        }
+        System.out.println(board);
     }
 
     public void toggleActive() {
-        for (JButton[] bArr: buttons)
-            for (JButton b: bArr)
-                b.setEnabled(!isActive);
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                if (board[r][c] != 0) {
+                    buttons[r][c].setEnabled(!isActive);
+                }
+            }
+        }
         isActive = !isActive;
     }
     
