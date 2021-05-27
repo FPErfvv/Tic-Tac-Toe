@@ -6,19 +6,14 @@ import java.util.ArrayList;
 public class BigBoard extends JPanel{
 
     GridLayout grid;
-    SmallBoardContainer one;
-    SmallBoardContainer nine;
-    SmallBoardContainer two;
-    SmallBoardContainer three;
-    SmallBoardContainer four; 
-    SmallBoardContainer five;
-    SmallBoardContainer six;
-    SmallBoardContainer seven;
-    SmallBoardContainer eight;
+
     ArrayList<SmallBoardContainer> smallBoards;
 
-    public BigBoard(JButton startButton) {
+    JButton startButton;
+
+    public BigBoard(JButton sButton) {
         smallBoards = new ArrayList<SmallBoardContainer>();
+        startButton = sButton;
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)

@@ -16,18 +16,20 @@ public class BigBoardContainer extends JPanel implements ActionListener {
     CardLayout layout;
     Timer t;
     JFrame f;
+    BigBoard gameBoard;
     public BigBoardContainer(JFrame f, JButton startButton) {
         this.f = f;
         layout = new CardLayout();
         t = new Timer(100, this);
         this.setLayout(layout);
         setPreferredSize(new Dimension(f.getHeight()-78,f.getHeight()-78));
-        BigBoard gameBoard = new BigBoard(startButton);
+        gameBoard = new BigBoard(startButton);
         gameBoard.setFocusable(true);
         TitlePage instructions = new TitlePage();
 
         add(instructions);
         add(gameBoard);
+        startButton.addActionListener(this);
         setBackground(Color.WHITE);
         setVisible(true);
         t.start();
@@ -36,6 +38,13 @@ public class BigBoardContainer extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
+        if (arg0.getSource() instanceof JButton) {
+            System.out.println("Game has Started!");
+            gameBoard.startGame();
+            JButton b = (JButton) arg0.getSource();
+            b.setText("Stop");
+
+        }
         setMaximumSize(new Dimension(f.getHeight()-30,f.getHeight()-70));
         layout.previous(this);
         layout.next(this);
