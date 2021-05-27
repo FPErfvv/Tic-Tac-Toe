@@ -17,7 +17,7 @@ public class BigBoard extends JPanel{
     SmallBoardContainer eight;
     ArrayList<SmallBoardContainer> smallBoards;
 
-    public BigBoard() {
+    public BigBoard(JButton startButton) {
         smallBoards = new ArrayList<SmallBoardContainer>();
         for (int i = 0; i < 3; i++)
         {
@@ -38,6 +38,10 @@ public class BigBoard extends JPanel{
         setBackground(Color.BLACK);
         setVisible(true);
         
+    }
+
+    public void startGame() { // This is the method that starts the game off
+
     }
 
 

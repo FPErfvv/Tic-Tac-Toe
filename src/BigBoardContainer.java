@@ -16,13 +16,13 @@ public class BigBoardContainer extends JPanel implements ActionListener {
     CardLayout layout;
     Timer t;
     JFrame f;
-    public BigBoardContainer(JFrame f) {
+    public BigBoardContainer(JFrame f, JButton startButton) {
         this.f = f;
         layout = new CardLayout();
         t = new Timer(100, this);
         this.setLayout(layout);
         setPreferredSize(new Dimension(f.getHeight()-78,f.getHeight()-78));
-        BigBoard gameBoard = new BigBoard();
+        BigBoard gameBoard = new BigBoard(startButton);
         gameBoard.setFocusable(true);
         TitlePage instructions = new TitlePage();
 
@@ -41,13 +41,15 @@ public class BigBoardContainer extends JPanel implements ActionListener {
         layout.next(this);
     }
 
-    public void changePanel(JButton b) {
+    public void changePanel(JButton b,JButton s) {
         if (b.getText().equals("Back")) {
             layout.previous(this);
             b.setText("Play");
+            s.setEnabled(false);
         } else {
             layout.next(this);
             b.setText("Back");
+            s.setEnabled(true);
         }
     }
 }

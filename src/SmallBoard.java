@@ -103,6 +103,7 @@ public class SmallBoard extends JPanel implements ActionListener {
             }
             System.out.println();
         }
+        System.out.println();
         
     }
 
