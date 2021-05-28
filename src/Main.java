@@ -8,13 +8,15 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Main extends JFrame implements ActionListener {
     BigBoardContainer game;
     JButton play;
-    JButton start;
+    JComboBox options;
+    JButton startButton;
     JPanel controlBoard;
 
     public Main() {
@@ -24,14 +26,18 @@ public class Main extends JFrame implements ActionListener {
         setSize(700, 700);
         controlBoard = new JPanel();
         play = new JButton("Play");
-        start = new JButton("Start");
-        start.setEnabled(false);
+        options = new JComboBox<>(new String[] {"Two Player", "Random AI"});
+        startButton = new JButton("Start");
+        startButton.setEnabled(false);
+        options.setEnabled(false);
+        options.setSelectedIndex(0);
         controlBoard.add(play);
-        controlBoard.add(start);
-        controlBoard.setMaximumSize(new Dimension(200,50));
+        controlBoard.add(startButton);
+        controlBoard.add(options);
+        controlBoard.setMaximumSize(new Dimension(300,50));
         play.addActionListener(this);
         play.setBackground(Color.GREEN);
-        game = new BigBoardContainer(this, start);
+        game = new BigBoardContainer(this, options, startButton);
         setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
         add(controlBoard);
         add(game);
@@ -45,7 +51,7 @@ public class Main extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent arg0) {
         // TODO Auto-generated method stub
-        game.changePanel(play,start);
+        game.changePanel(play,startButton);
     }
 
 

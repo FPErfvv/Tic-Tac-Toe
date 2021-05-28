@@ -1,4 +1,5 @@
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,11 +10,8 @@ public class BigBoard extends JPanel{
 
     ArrayList<SmallBoardContainer> smallBoards;
 
-    JButton startButton;
-
-    public BigBoard(JButton sButton) {
+    public BigBoard() {
         smallBoards = new ArrayList<SmallBoardContainer>();
-        startButton = sButton;
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
