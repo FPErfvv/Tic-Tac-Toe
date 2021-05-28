@@ -42,9 +42,18 @@ public class BigBoardContainer extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent arg0) {
         if (arg0.getSource() instanceof JButton) {
-            System.out.println(comboBox.getSelectedItem());
-            gameBoard.startGame();
             JButton b = (JButton) arg0.getSource();
+            if (b.getText().equals("Start")) {
+                gameBoard.startGame(comboBox.getSelectedItem());
+                b.setText("Stop");
+                b.setBackground(Color.RED);
+            } else {
+                b.setText("Start");
+                b.setBackground(Color.GREEN);
+            }
+            System.out.println(comboBox.getSelectedItem());
+            
+
 
         }
         setMaximumSize(new Dimension(f.getHeight()-30,f.getHeight()-70));

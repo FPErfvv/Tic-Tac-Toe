@@ -28,6 +28,7 @@ public class Main extends JFrame implements ActionListener {
         play = new JButton("Play");
         options = new JComboBox<>(new String[] {"Two Player", "Random AI"});
         startButton = new JButton("Start");
+        startButton.setBackground(Color.GREEN);
         startButton.setEnabled(false);
         options.setEnabled(false);
         options.setSelectedIndex(0);
@@ -36,7 +37,6 @@ public class Main extends JFrame implements ActionListener {
         controlBoard.add(options);
         controlBoard.setMaximumSize(new Dimension(300,50));
         play.addActionListener(this);
-        play.setBackground(Color.GREEN);
         game = new BigBoardContainer(this, options, startButton);
         setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
         add(controlBoard);
