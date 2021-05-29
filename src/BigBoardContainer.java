@@ -41,7 +41,7 @@ public class BigBoardContainer extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        if (arg0.getSource() instanceof JButton) {
+        if (arg0.getSource() instanceof JButton) { // code run when start button is pressed 
             JButton b = (JButton) arg0.getSource();
             if (b.getText().equals("Start")) {
                 gameBoard.startGame(comboBox.getSelectedItem());
