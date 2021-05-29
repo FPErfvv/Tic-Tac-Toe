@@ -30,6 +30,8 @@ public class SmallBoard extends JPanel implements ActionListener {
     ImageIcon x;
     ImageIcon o;
 
+    int currentPlayer;
+
     public SmallBoard(Point i) {
         x = new ImageIcon("src/images/x.png");
         o = new ImageIcon("src/images/o.png");
@@ -40,6 +42,7 @@ public class SmallBoard extends JPanel implements ActionListener {
                             {0,0,0}};
         isFilled = false;
         isActive = true;
+        currentPlayer = 1; // determines the current player (x is 1, o is 2)
         one = new JButton();
         two = new JButton();
         three = new JButton();
@@ -88,16 +91,19 @@ public class SmallBoard extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent arg0) {
         JButton b = (JButton) arg0.getSource();
-        b.setIcon(x);
-        b.setDisabledIcon(x);
+        if (currentPlayer == 1) { // sets the button clicked to the right player
+            b.setIcon(x);
+            b.setDisabledIcon(x);
+        } else if (currentPlayer == 2) {
+            b.setIcon(o);
+            b.setDisabledIcon(o);
+        }
+        b.setEnabled(false);
 
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
-                if (buttons[r][c].equals(b)) {
-                    board[r][c] = 1;
-                    
-                    buttons[r][c].setEnabled(false);
-                    
+                if (buttons[r][c].equals(b)) { // updates the 2D int[][] array that maps the positions clicked
+                    board[r][c] = currentPlayer;
                 }
                 System.out.print(board[r][c] + " ");
             }
@@ -107,7 +113,7 @@ public class SmallBoard extends JPanel implements ActionListener {
         
     }
 
-    public void toggleActive() {
+    public void toggleActive() { // sets all the buttons on the board to be unclickable
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
                 if (board[r][c] == 0) {
@@ -120,6 +126,10 @@ public class SmallBoard extends JPanel implements ActionListener {
 
     public int[][] getBoard() {
         return board;
+    }
+
+    public void setCurrentPlayer(int cPlayer) {
+        currentPlayer = cPlayer;
     }
     
 }
