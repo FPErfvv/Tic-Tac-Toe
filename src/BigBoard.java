@@ -37,6 +37,21 @@ public class BigBoard extends JPanel{
         
     }
 
+    public void move() //consolidates a move, im not sure about some of the internals you did cattail so ill have to finish this with you, this is just an outline
+    {
+        //locks/unlocks relevant tiles
+        //changes tile based on player click
+        //calls .winner() and determines if the board is complete, acts accordingly
+        //calls .largeWinner() to see if the game is over
+        //changes player
+    }
+
+    public int largeWinner() //returns 0 if no winner, 1 if 1 won, 2 if 2 won, -1 if tie
+    {
+        //idk how to access the small boards from here but it calls .isWon() on them and checks for win condition
+        return 0;
+    }
+
     public void startGame(Object m) { // This is the method that starts the game off
         String mode = (String) m; // this is the mode that the game is in (random AI or two player)
         

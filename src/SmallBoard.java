@@ -15,6 +15,8 @@ public class SmallBoard extends JPanel implements ActionListener {
     JButton[][] buttons;
     boolean isFilled;
     boolean isActive;
+    boolean won; //.winner() must be called after every move to update these values as of now
+    int winner; //0 if no winner, 1 if 1 won, 2 if 2 won, -1 if tie
     GridLayout grid;
 
     JButton one;
@@ -42,6 +44,8 @@ public class SmallBoard extends JPanel implements ActionListener {
                             {0,0,0}};
         isFilled = false;
         isActive = true;
+        won = false;
+        winner = 0;
         currentPlayer = 1; // determines the current player (x is 1, o is 2)
         one = new JButton();
         two = new JButton();
@@ -130,6 +134,96 @@ public class SmallBoard extends JPanel implements ActionListener {
 
     public void setCurrentPlayer(int cPlayer) {
         currentPlayer = cPlayer;
+    }
+
+    public String legalMoves() //returns a String with the legal squares, works since numbers are all 1 digit, i intend to use .indexOf() 
+    {
+        String moves = "";
+        int count = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (board[i][j] == 0)
+                {
+                    moves += String.valueOf(count); //IF THERES A PROBLEM, CHECK THIS LINE
+                }
+                count++;
+            }
+        }
+
+        return moves;
+    }
+
+    public int winner() //returns 0 if no winner, 1 if 1 won, 2 if 2 won, -1 if tie
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (board[i][0] == board[i][1] && board[i][0] == board[i][2])
+            {
+                if (board[i][0] != 0)
+                {
+                    winner = board[i][0];
+                    won = true;
+                    return board[i][0];
+                }
+            }
+
+            if (board[0][i] == board[1][i] && board[0][i] == board[2][i])
+            {
+                if (board[0][i] != 0)
+                {
+                    winner = board[0][i];
+                    won = true;
+                    return board[0][i];
+                }
+            }
+        }
+
+        if (board[0][0] == board[1][1] && board[0][0] == board[2][2])
+        {
+            if (board[0][0] != 0)
+            {
+                winner = board[0][0];
+                won = true;
+                return board[0][0];
+            }
+        }
+
+        if (board[0][2] == board[1][1] && board[0][0] == board[2][0])
+        {
+            if (board[0][2] != 0)
+            {
+                winner = board[0][2];
+                won = true;
+                return board[0][2];
+            }
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (board[i][j] == 0)
+                {
+                    return 0;
+                }
+            }
+        }
+
+        winner = -1;
+        won = true;
+        return -1;
+    }
+
+    public boolean isWon()
+    {
+        return won;
+    }
+
+    public int getWinner()
+    {
+        return winner;
     }
     
 }
