@@ -1,3 +1,5 @@
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.*;
 
@@ -36,5 +38,30 @@ public class SmallBoardContainer extends JPanel {
     public SmallBoard getSmallBoard()
     {
         return smallBoard;
+    }
+    /**
+     * If a small board has been filled, this method replaces that board with an image
+     * signifying who won, if anyone at all.
+     * TODO: add functionality to resize these big images when the window is resized. 
+     */
+    public void setBigIcon() {
+        int winner = smallBoard.getWinner();
+        ImageIcon bigImage = new ImageIcon("src/images/x.png");
+        // depending on the winnner, a bigIcon is chosen to display
+        if (winner == 1) {
+        } else if (winner == 2) {
+            bigImage = new ImageIcon("src/images/o.png");
+        } else if (winner == -1) {
+            bigImage = new ImageIcon("src/images/x.png");
+        } else {
+            // TODO: code for the tie goes here
+            bigImage = new ImageIcon("src/images/x.png");
+        }
+        // creates a new image that is scaled up from the image icon
+        Image newImage = bigImage.getImage().getScaledInstance(smallBoard.getWidth()-20, smallBoard.getHeight()-20, Image.SCALE_SMOOTH);
+        // removes the smallBoard that was added
+        remove(smallBoard);
+        // adds the new image in its place
+        add(new JLabel(new ImageIcon(newImage)), BorderLayout.CENTER);
     }
 }

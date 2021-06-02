@@ -87,8 +87,5 @@ public class BigBoard extends JPanel{
 
     public void startGame(Object m) { // This is the method that starts the game off
         String mode = (String) m; // this is the mode that the game is in (random AI or two player)
-        
     }
-
-
 }
