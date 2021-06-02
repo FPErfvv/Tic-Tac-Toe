@@ -48,8 +48,41 @@ public class BigBoard extends JPanel{
 
     public int largeWinner() //returns 0 if no winner, 1 if 1 won, 2 if 2 won, -1 if tie
     {
-        //idk how to access the small boards from here but it calls .isWon() on them and checks for win condition
-        return 0;
+        for (int i = 0; i < 7; i += 3) //rows
+        {
+            if (smallBoards.get(i).getSmallBoard().isWon() && smallBoards.get(i).getSmallBoard().getWinner() != -1 && smallBoards.get(i).getSmallBoard().getWinner() == smallBoards.get(i + 1).getSmallBoard().getWinner() && smallBoards.get(i).getSmallBoard().getWinner() == smallBoards.get(i + 2).getSmallBoard().getWinner())
+            {
+                return smallBoards.get(i).getSmallBoard().getWinner();
+            }
+        }
+
+        for (int i = 0; i < 3; i++) //columns
+        {
+            if (smallBoards.get(i).getSmallBoard().isWon() && smallBoards.get(i).getSmallBoard().getWinner() != -1 && smallBoards.get(i).getSmallBoard().getWinner() == smallBoards.get(i + 3).getSmallBoard().getWinner() && smallBoards.get(i).getSmallBoard().getWinner() == smallBoards.get(i + 6).getSmallBoard().getWinner())
+            {
+                return smallBoards.get(i).getSmallBoard().getWinner();
+            }
+        }
+
+        if (smallBoards.get(0).getSmallBoard().isWon() && smallBoards.get(0).getSmallBoard().getWinner() != -1 && smallBoards.get(0).getSmallBoard().getWinner() == smallBoards.get(4).getSmallBoard().getWinner() && smallBoards.get(0).getSmallBoard().getWinner() == smallBoards.get(8).getSmallBoard().getWinner())
+        {
+            return smallBoards.get(0).getSmallBoard().getWinner(); //first diagonal
+        }
+
+        if (smallBoards.get(2).getSmallBoard().isWon() && smallBoards.get(2).getSmallBoard().getWinner() != -1 && smallBoards.get(2).getSmallBoard().getWinner() == smallBoards.get(4).getSmallBoard().getWinner() && smallBoards.get(2).getSmallBoard().getWinner() == smallBoards.get(6).getSmallBoard().getWinner())
+        {
+            return smallBoards.get(2).getSmallBoard().getWinner(); //second diagonal
+        }
+
+        for (SmallBoardContainer board : smallBoards) //checks to see if there are any unwon boards
+        {
+            if (!board.getSmallBoard().isWon())
+            {
+                return 0;
+            }
+        }
+
+        return -1; //all boards are won but no player has won overall, returns tie
     }
 
     public void startGame(Object m) { // This is the method that starts the game off

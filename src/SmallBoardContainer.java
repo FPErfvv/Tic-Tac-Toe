@@ -6,13 +6,14 @@ public class SmallBoardContainer extends JPanel {
     JPanel fillRight;
     JPanel fillTop;
     JPanel fillBottom;
+    SmallBoard smallBoard;
     public SmallBoardContainer(Point p) {
         setLayout(new BorderLayout());
         fillLeft = new JPanel();
         fillRight = new JPanel();
         fillTop = new JPanel();
         fillBottom = new JPanel();
-        SmallBoard smallBoard = new SmallBoard(p);
+        smallBoard = new SmallBoard(p);
         add(fillLeft, BorderLayout.EAST);
         add(fillRight, BorderLayout.WEST);
         add(fillTop, BorderLayout.NORTH);
@@ -26,5 +27,10 @@ public class SmallBoardContainer extends JPanel {
         fillRight.setBackground(c);
         fillTop.setBackground(c);
         fillBottom.setBackground(c);
+    }
+
+    public SmallBoard getSmallBoard()
+    {
+        return smallBoard;
     }
 }
