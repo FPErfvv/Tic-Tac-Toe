@@ -3,8 +3,6 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -47,7 +45,11 @@ public class Main extends JFrame implements ActionListener {
     public static void main(String[] args) throws Exception {
         Main main = new Main();
     }
-
+    /**
+     * When the play button is pressed, the change panel method is called, which changes the
+     * the panel from the title page to the actual gameboardContainer, which contains the
+     * bigBoard.
+     */
     @Override
     public void actionPerformed(ActionEvent arg0) {
         // TODO Auto-generated method stub

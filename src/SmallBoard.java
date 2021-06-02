@@ -35,7 +35,9 @@ public class SmallBoard extends JPanel implements ActionListener {
     int currentPlayer;
 
     public SmallBoard(Point i) {
+        // the image that is placed when the player is x
         x = new ImageIcon("src/images/x.png");
+        // the image that is placed when the player is y
         o = new ImageIcon("src/images/o.png");
 
         index = i;

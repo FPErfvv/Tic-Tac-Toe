@@ -1,5 +1,4 @@
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ public class BigBoard extends JPanel{
 
         grid = new GridLayout(3,3,15,15);
         setLayout(grid);
+        // adds all of the smallBoardContainers to the BigBoard itself
         for (SmallBoardContainer e : smallBoards) {
             add(e);
         }

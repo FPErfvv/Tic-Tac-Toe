@@ -21,7 +21,11 @@ public class SmallBoardContainer extends JPanel {
         add(smallBoard, BorderLayout.CENTER);
         setColor(Color.WHITE);
     }
-
+    /**
+     * Sets the color of the rim around the SmallBoard to highlight certain boards.
+     * Since the player often has only one board to choose from, it is helpful to 
+     * highlight the board that he/she needs to focus on. 
+     */
     public void setColor(Color c) {
         fillLeft.setBackground(c);
         fillRight.setBackground(c);

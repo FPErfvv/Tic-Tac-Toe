@@ -36,13 +36,26 @@ public class BigBoardContainer extends JPanel implements ActionListener {
         setBackground(Color.WHITE);
         setVisible(true);
         t.start();
-
     }
-
+    /**
+     * This is the code that is run when the start/stop button is pressed.
+     * It also periodically resizes the size of the BigBoardContainer to 
+     * match up with the size of the JFrame.
+     */
     @Override
     public void actionPerformed(ActionEvent arg0) {
         if (arg0.getSource() instanceof JButton) { // code run when start button is pressed 
             JButton b = (JButton) arg0.getSource();
+            /**
+             * if the button has not been pressed yet and reads "start" it 
+             *      >starts the game
+             *      >changes the text to stop
+             *      >changes the color to red
+             * if the button has been pressed and reads "stop" it
+             *      >changes the text to start
+             *      >sets the color to green
+             *      >TODO: add end method that is ends the game when this button is pressed
+             */
             if (b.getText().equals("Start")) {
                 gameBoard.startGame(comboBox.getSelectedItem());
                 b.setText("Stop");
