@@ -2,12 +2,20 @@
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class BigBoard extends JPanel{
+public class BigBoard extends JPanel implements ActionListener {
 
     GridLayout grid;
 
     ArrayList<SmallBoardContainer> smallBoards;
+
+    int currentPlayer;
+    int prevClickLocation;
+
+    Timer t;
 
     public BigBoard() {
         smallBoards = new ArrayList<SmallBoardContainer>();
@@ -30,10 +38,13 @@ public class BigBoard extends JPanel{
         // adds all of the smallBoardContainers to the BigBoard itself
         for (SmallBoardContainer e : smallBoards) {
             add(e);
+            e.getSmallBoard().toggleActive();
         }
         setBackground(Color.BLACK);
         setVisible(true);
-        
+        currentPlayer = 1; // x starts first
+        t = new Timer(10, this);
+        prevClickLocation = -1; // open to all boards
         
     }
 
@@ -44,6 +55,7 @@ public class BigBoard extends JPanel{
         //calls .winner() and determines if the board is complete, acts accordingly
         //calls .largeWinner() to see if the game is over
         //changes player
+
     }
 
     public int largeWinner() //returns 0 if no winner, 1 if 1 won, 2 if 2 won, -1 if tie
@@ -81,11 +93,66 @@ public class BigBoard extends JPanel{
                 return 0;
             }
         }
-
         return -1; //all boards are won but no player has won overall, returns tie
     }
 
     public void startGame(Object m) { // This is the method that starts the game off
         String mode = (String) m; // this is the mode that the game is in (random AI or two player)
+        smallBoards.get(8).setBigIcon();
+        t.start();
+        for (SmallBoardContainer e : smallBoards) {
+            e.getSmallBoard().toggleActive();
+        }
+    }
+
+    public void resizeBigIcons() { // resize the bigIcons of all the boards.
+        for (SmallBoardContainer board : smallBoards) 
+        {
+            board.resizeBigIcon();
+        }
+    }
+
+    public void toggleCurrentPlayer() {
+        if (currentPlayer == 1) {
+            currentPlayer = 2;
+        } else {
+            currentPlayer = 1;
+        }
+        for (SmallBoardContainer e : smallBoards) {
+            e.getSmallBoard().setCurrentPlayer(currentPlayer);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        for (SmallBoardContainer e : smallBoards) {
+            int cPlayer = e.getSmallBoard().getCurrentPlayer();
+            if (cPlayer != currentPlayer) {
+                currentPlayer = cPlayer;
+                lockAllBoards(e.getSmallBoard().getPrevClickLocation());
+                break;
+            }
+        }
+        for (SmallBoardContainer e : smallBoards) {
+            e.getSmallBoard().setCurrentPlayer(currentPlayer);
+        }
+    }
+
+    public void lockAllBoards(int exeption) {
+        resetHighlight();
+        smallBoards.get(exeption).highlight();
+
+        for (int i = 0; i < 9; i++) {
+            smallBoards.get(i).getSmallBoard().disable();
+            if (i == exeption) {
+                smallBoards.get(i).getSmallBoard().enable();
+            }
+        }
+    }
+
+    public void resetHighlight() {
+        for (SmallBoardContainer e : smallBoards) {
+            e.clearHighlight();
+        }
     }
 }

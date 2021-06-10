@@ -20,12 +20,21 @@ public class BigBoardContainer extends JPanel implements ActionListener {
     BigBoard gameBoard;
     JComboBox comboBox;
 
+    int frameWidth;
+    int frameHeight;
+
+    final int RESIZE_TIME_BUFFER = 3;
+    int resizeIterator; 
+
     public BigBoardContainer(JFrame f, JComboBox cBox, JButton sButton) {
         this.f = f;
         layout = new CardLayout();
-        t = new Timer(100, this);
+        t = new Timer(300, this);
         this.setLayout(layout);
         setPreferredSize(new Dimension(f.getHeight()-78,f.getHeight()-78));
+        frameWidth = f.getWidth();
+        frameHeight = f.getHeight();
+        resizeIterator = 16;
         gameBoard = new BigBoard();
         gameBoard.setFocusable(true);
         TitlePage instructions = new TitlePage();
@@ -64,14 +73,22 @@ public class BigBoardContainer extends JPanel implements ActionListener {
                 b.setText("Start");
                 b.setBackground(Color.GREEN);
             }
-            System.out.println(comboBox.getSelectedItem());
-            
-
-
         }
-        setMaximumSize(new Dimension(f.getHeight()-30,f.getHeight()-70));
-        layout.previous(this);
-        layout.next(this);
+        if (resizeIterator < RESIZE_TIME_BUFFER) {
+
+            resizeIterator++;
+            System.out.println("TEST: " + resizeIterator);
+        }
+        if (frameWidth != f.getWidth() || frameHeight != f.getHeight()) {
+            setMaximumSize(new Dimension(f.getHeight()-30,f.getHeight()-70));
+            layout.previous(this);
+            layout.next(this);
+            gameBoard.resizeBigIcons(); // TODO: check if it actually resizes
+            frameWidth = f.getWidth();
+            frameHeight = f.getHeight();
+            resizeIterator = 0;
+        }
+
     }
 
     public void changePanel(JButton b,JButton s) {

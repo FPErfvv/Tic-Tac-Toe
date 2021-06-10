@@ -9,31 +9,46 @@ public class SmallBoardContainer extends JPanel {
     JPanel fillTop;
     JPanel fillBottom;
     SmallBoard smallBoard;
+    JLabel bigIcon;
+    boolean hasBigIcon;
+    boolean hasBeenResized;
     public SmallBoardContainer(Point p) {
         setLayout(new BorderLayout());
         fillLeft = new JPanel();
         fillRight = new JPanel();
         fillTop = new JPanel();
         fillBottom = new JPanel();
-        smallBoard = new SmallBoard(p);
+        smallBoard = new SmallBoard(p, this);
         add(fillLeft, BorderLayout.EAST);
         add(fillRight, BorderLayout.WEST);
         add(fillTop, BorderLayout.NORTH);
         add(fillBottom, BorderLayout.SOUTH);
         add(smallBoard, BorderLayout.CENTER);
-        setColor(Color.WHITE);
+        bigIcon = new JLabel();
+        clearHighlight();
+        setBackground(Color.WHITE);
+        hasBigIcon = false;
+        hasBeenResized = true; // used so that the icons are only resized once and then left alone until needed again.
     }
     /**
      * Sets the color of the rim around the SmallBoard to highlight certain boards.
      * Since the player often has only one board to choose from, it is helpful to 
      * highlight the board that he/she needs to focus on. 
      */
-    public void setColor(Color c) {
-        fillLeft.setBackground(c);
-        fillRight.setBackground(c);
-        fillTop.setBackground(c);
-        fillBottom.setBackground(c);
+    public void highlight() {
+        fillLeft.setBackground(Color.GREEN);
+        fillRight.setBackground(Color.GREEN);
+        fillTop.setBackground(Color.GREEN);
+        fillBottom.setBackground(Color.GREEN);
     }
+
+    public void clearHighlight() {
+        fillLeft.setBackground(Color.WHITE);
+        fillRight.setBackground(Color.WHITE);
+        fillTop.setBackground(Color.WHITE);
+        fillBottom.setBackground(Color.WHITE);
+    }
+
 
     public SmallBoard getSmallBoard()
     {
@@ -46,22 +61,47 @@ public class SmallBoardContainer extends JPanel {
      */
     public void setBigIcon() {
         int winner = smallBoard.getWinner();
-        ImageIcon bigImage = new ImageIcon("src/images/x.png");
+        ImageIcon bigImage = new ImageIcon("src/images/largeX.png");
         // depending on the winnner, a bigIcon is chosen to display
         if (winner == 1) {
+            bigImage = new ImageIcon("src/images/largeX.png");
         } else if (winner == 2) {
-            bigImage = new ImageIcon("src/images/o.png");
+            bigImage = new ImageIcon("src/images/largeO.png");
         } else if (winner == -1) {
-            bigImage = new ImageIcon("src/images/x.png");
+            bigImage = new ImageIcon("src/images/tie.png");
         } else {
             // TODO: code for the tie goes here
-            bigImage = new ImageIcon("src/images/x.png");
+            return;
         }
         // creates a new image that is scaled up from the image icon
-        Image newImage = bigImage.getImage().getScaledInstance(smallBoard.getWidth()-20, smallBoard.getHeight()-20, Image.SCALE_SMOOTH);
+        Image newImage = bigImage.getImage().getScaledInstance(smallBoard.getWidth()-20, smallBoard.getHeight(), Image.SCALE_SMOOTH);
         // removes the smallBoard that was added
-        remove(smallBoard);
+        if (hasBigIcon) {
+            remove(bigIcon);
+        }else {
+            remove(smallBoard);
+        }
+        
+        bigIcon = new JLabel(new ImageIcon(newImage));
         // adds the new image in its place
-        add(new JLabel(new ImageIcon(newImage)), BorderLayout.CENTER);
+        add(bigIcon, BorderLayout.CENTER);
+        hasBigIcon = true;
     }
+
+    public void resizeBigIcon() {
+        if (hasBigIcon) { // only resize the image if it has been put in place.
+            ImageIcon bigImage = (ImageIcon) bigIcon.getIcon();
+            Image newImage = bigImage.getImage().getScaledInstance(this.getHeight()-30, this.getHeight()-30, Image.SCALE_SMOOTH);
+            remove(bigIcon);
+            bigIcon = new JLabel(new ImageIcon(newImage));
+            // adds the new image in its place
+            add(bigIcon, BorderLayout.CENTER);
+        }
+
+    }
+
+    public void setResized(boolean bool) {
+        hasBeenResized = bool;
+    }
+
 }

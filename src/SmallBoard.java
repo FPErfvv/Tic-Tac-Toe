@@ -33,8 +33,11 @@ public class SmallBoard extends JPanel implements ActionListener {
     ImageIcon o;
 
     int currentPlayer;
+    int prevClickLocation;
 
-    public SmallBoard(Point i) {
+    SmallBoardContainer container;
+
+    public SmallBoard(Point i, SmallBoardContainer c) {
         // the image that is placed when the player is x
         x = new ImageIcon("src/images/x.png");
         // the image that is placed when the player is y
@@ -49,6 +52,8 @@ public class SmallBoard extends JPanel implements ActionListener {
         won = false;
         winner = 0;
         currentPlayer = 1; // determines the current player (x is 1, o is 2)
+
+        container = c;
         one = new JButton();
         two = new JButton();
         three = new JButton();
@@ -100,26 +105,31 @@ public class SmallBoard extends JPanel implements ActionListener {
         if (currentPlayer == 1) { // sets the button clicked to the right player
             b.setIcon(x);
             b.setDisabledIcon(x);
+            currentPlayer = 2;
         } else if (currentPlayer == 2) {
             b.setIcon(o);
             b.setDisabledIcon(o);
+            currentPlayer = 1;
         }
         b.setEnabled(false);
-
+        int count = 0;
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
+
                 if (buttons[r][c].equals(b)) { // updates the 2D int[][] array that maps the positions clicked
                     board[r][c] = currentPlayer;
+                    prevClickLocation = count;
                 }
+                count++;
                 System.out.print(board[r][c] + " ");
             }
             System.out.println();
         }
         System.out.println();
-        
+        winner();
     }
 
-    public void toggleActive() { // sets all the buttons on the board to be unclickable
+    public void toggleActive() { // toggles whether the buttons are active or inactive
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
                 if (board[r][c] == 0) {
@@ -128,6 +138,28 @@ public class SmallBoard extends JPanel implements ActionListener {
             }
         }
         isActive = !isActive;
+    }
+
+    public void enable() { // sets all the buttons on the board to be clickable
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                if (board[r][c] == 0) {
+                    buttons[r][c].setEnabled(true);
+                }
+            }
+        }
+        isActive = true;
+    }
+
+    public void disable() { // sets all the buttons on the board to be unclickable
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                if (board[r][c] == 0) {
+                    buttons[r][c].setEnabled(false);
+                }
+            }
+        }
+        isActive = false;
     }
 
     public int[][] getBoard() {
@@ -165,9 +197,11 @@ public class SmallBoard extends JPanel implements ActionListener {
             {
                 if (board[i][0] != 0)
                 {
-                    winner = board[i][0];
+                    winner = 3-board[i][0];
                     won = true;
-                    return board[i][0];
+                    container.setBigIcon();
+                    System.out.println(winner); // debug
+                    return winner;
                 }
             }
 
@@ -175,9 +209,11 @@ public class SmallBoard extends JPanel implements ActionListener {
             {
                 if (board[0][i] != 0)
                 {
-                    winner = board[0][i];
+                    winner = 3-board[0][i];
                     won = true;
-                    return board[0][i];
+                    container.setBigIcon();
+                    System.out.println(winner); // debug
+                    return winner;
                 }
             }
         }
@@ -186,19 +222,23 @@ public class SmallBoard extends JPanel implements ActionListener {
         {
             if (board[0][0] != 0)
             {
-                winner = board[0][0];
+                winner = 3-board[0][0];
                 won = true;
-                return board[0][0];
+                container.setBigIcon();
+                System.out.println(winner); // debug
+                return winner;
             }
         }
 
-        if (board[0][2] == board[1][1] && board[0][0] == board[2][0])
+        if (board[0][2] == board[1][1] && board[0][2] == board[2][0])
         {
             if (board[0][2] != 0)
             {
-                winner = board[0][2];
+                winner = 3-board[0][2];
                 won = true;
-                return board[0][2];
+                container.setBigIcon();
+                System.out.println(winner); // debug
+                return winner;
             }
         }
 
@@ -215,6 +255,8 @@ public class SmallBoard extends JPanel implements ActionListener {
 
         winner = -1;
         won = true;
+        container.setBigIcon();
+        System.out.println(winner); // debug
         return -1;
     }
 
@@ -226,6 +268,14 @@ public class SmallBoard extends JPanel implements ActionListener {
     public int getWinner()
     {
         return winner;
+    }
+
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public int getPrevClickLocation() {
+        return prevClickLocation;
     }
     
 }
