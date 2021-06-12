@@ -10,19 +10,18 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 
 public class SmallBoard extends JPanel implements ActionListener {
-    Point index;
     int[][] board;
     JButton[][] buttons;
     boolean isFilled;
     boolean isActive;
-    boolean won; //.winner() must be called after every move to update these values as of now
-    int winner; //0 if no winner, 1 if 1 won, 2 if 2 won, -1 if tie
+    boolean won; // .winner() must be called after every move to update these values as of now
+    int winner; // 0 if no winner, 1 if 1 won, 2 if 2 won, -1 if tie
     GridLayout grid;
 
     JButton one;
     JButton two;
     JButton three;
-    JButton four; 
+    JButton four;
     JButton five;
     JButton six;
     JButton seven;
@@ -36,28 +35,31 @@ public class SmallBoard extends JPanel implements ActionListener {
     int prevClickLocation;
 
     SmallBoardContainer container;
+    BigBoard bigBoard;
 
-    public SmallBoard(Point i, SmallBoardContainer c) {
+    String gameMode;
+
+    public SmallBoard(SmallBoardContainer c, BigBoard bigBoard) {
         // the image that is placed when the player is x
         x = new ImageIcon("src/images/x.png");
         // the image that is placed when the player is y
         o = new ImageIcon("src/images/o.png");
-
-        index = i;
-        board = new int[][] {{0,0,0},
-                            {0,0,0},
-                            {0,0,0}};
+        board = new int[][] {{ 0, 0, 0 }, 
+                             { 0, 0, 0 },
+                             { 0, 0, 0 }};
         isFilled = false;
         isActive = true;
         won = false;
         winner = 0;
         currentPlayer = 1; // determines the current player (x is 1, o is 2)
+        gameMode = "Two Player";
 
         container = c;
+        this.bigBoard = bigBoard;
         one = new JButton();
         two = new JButton();
         three = new JButton();
-        four = new JButton(); 
+        four = new JButton();
         five = new JButton();
         six = new JButton();
         seven = new JButton();
@@ -75,11 +77,11 @@ public class SmallBoard extends JPanel implements ActionListener {
         buttons[2][1] = eight;
         buttons[2][2] = nine;
 
-        grid = new GridLayout(3,3,5,5);
+        grid = new GridLayout(3, 3, 5, 5);
         setLayout(grid);
 
-        for (JButton[] bArr: buttons) {
-            for (JButton b: bArr) {
+        for (JButton[] bArr : buttons) {
+            for (JButton b : bArr) {
                 add(b);
                 b.setBorderPainted(false);
                 b.addActionListener(this);
@@ -88,7 +90,6 @@ public class SmallBoard extends JPanel implements ActionListener {
             }
         }
         setVisible(true);
-
     }
 
     @Override
@@ -96,12 +97,16 @@ public class SmallBoard extends JPanel implements ActionListener {
         // TODO Auto-generated method stub
         super.paintComponent(arg0);
         arg0.setColor(Color.BLACK);
-        arg0.fillRect(5, 5, getWidth()-10, getHeight()-10);
+        arg0.fillRect(5, 5, getWidth() - 10, getHeight() - 10);
     }
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
         JButton b = (JButton) arg0.getSource();
+        buttonClicked(b);
+    }
+
+    public void buttonClicked(JButton b) {
         if (currentPlayer == 1) { // sets the button clicked to the right player
             b.setIcon(x);
             b.setDisabledIcon(x);
@@ -115,9 +120,9 @@ public class SmallBoard extends JPanel implements ActionListener {
         int count = 0;
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
-
+                
                 if (buttons[r][c].equals(b)) { // updates the 2D int[][] array that maps the positions clicked
-                    board[r][c] = currentPlayer;
+                    board[r][c] = 3-currentPlayer;
                     prevClickLocation = count;
                 }
                 count++;
@@ -125,19 +130,9 @@ public class SmallBoard extends JPanel implements ActionListener {
             }
             System.out.println();
         }
-        System.out.println();
         winner();
-    }
-
-    public void toggleActive() { // toggles whether the buttons are active or inactive
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 3; c++) {
-                if (board[r][c] == 0) {
-                    buttons[r][c].setEnabled(!isActive);
-                }
-            }
-        }
-        isActive = !isActive;
+        bigBoard.checkBigWin(prevClickLocation, currentPlayer);
+        
     }
 
     public void enable() { // sets all the buttons on the board to be clickable
@@ -197,7 +192,7 @@ public class SmallBoard extends JPanel implements ActionListener {
             {
                 if (board[i][0] != 0)
                 {
-                    winner = 3-board[i][0];
+                    winner = board[i][0];
                     won = true;
                     container.setBigIcon();
                     System.out.println(winner); // debug
@@ -209,7 +204,7 @@ public class SmallBoard extends JPanel implements ActionListener {
             {
                 if (board[0][i] != 0)
                 {
-                    winner = 3-board[0][i];
+                    winner = board[0][i];
                     won = true;
                     container.setBigIcon();
                     System.out.println(winner); // debug
@@ -222,7 +217,7 @@ public class SmallBoard extends JPanel implements ActionListener {
         {
             if (board[0][0] != 0)
             {
-                winner = 3-board[0][0];
+                winner = board[0][0];
                 won = true;
                 container.setBigIcon();
                 System.out.println(winner); // debug
@@ -234,7 +229,7 @@ public class SmallBoard extends JPanel implements ActionListener {
         {
             if (board[0][2] != 0)
             {
-                winner = 3-board[0][2];
+                winner = board[0][2];
                 won = true;
                 container.setBigIcon();
                 System.out.println(winner); // debug
@@ -270,12 +265,28 @@ public class SmallBoard extends JPanel implements ActionListener {
         return winner;
     }
 
-    public int getCurrentPlayer() {
-        return currentPlayer;
+    public void setGameMode(String gm) {
+        gameMode = gm;
     }
 
-    public int getPrevClickLocation() {
-        return prevClickLocation;
+    public JButton[][] getButtons() {
+        return buttons;
     }
-    
+
+    public void resetBoard() {
+        board = new int[][] {{0,0,0},
+                             {0,0,0},
+                             {0,0,0}};
+        for (JButton[] bArr : buttons) {
+            for (JButton b : bArr) {
+                b.setIcon(null);
+            }
+        }
+        // resets all the variables to their pregame state
+        isFilled = false;
+        isActive = true;
+        won = false;
+        winner = 0;
+        currentPlayer = 1;
+    }
 }

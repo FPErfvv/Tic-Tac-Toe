@@ -52,7 +52,7 @@ public class BigBoardContainer extends JPanel implements ActionListener {
      * match up with the size of the JFrame.
      */
     @Override
-    public void actionPerformed(ActionEvent arg0) {
+    public void actionPerformed(ActionEvent arg0) { 
         if (arg0.getSource() instanceof JButton) { // code run when start button is pressed 
             JButton b = (JButton) arg0.getSource();
             /**
@@ -72,6 +72,7 @@ public class BigBoardContainer extends JPanel implements ActionListener {
             } else {
                 b.setText("Start");
                 b.setBackground(Color.GREEN);
+                gameBoard.stopGame();
             }
         }
         if (resizeIterator < RESIZE_TIME_BUFFER) {
@@ -88,7 +89,6 @@ public class BigBoardContainer extends JPanel implements ActionListener {
             frameHeight = f.getHeight();
             resizeIterator = 0;
         }
-
     }
 
     public void changePanel(JButton b,JButton s) {

@@ -11,14 +11,13 @@ public class SmallBoardContainer extends JPanel {
     SmallBoard smallBoard;
     JLabel bigIcon;
     boolean hasBigIcon;
-    boolean hasBeenResized;
-    public SmallBoardContainer(Point p) {
+    public SmallBoardContainer(BigBoard b) {
         setLayout(new BorderLayout());
         fillLeft = new JPanel();
         fillRight = new JPanel();
         fillTop = new JPanel();
         fillBottom = new JPanel();
-        smallBoard = new SmallBoard(p, this);
+        smallBoard = new SmallBoard(this, b);
         add(fillLeft, BorderLayout.EAST);
         add(fillRight, BorderLayout.WEST);
         add(fillTop, BorderLayout.NORTH);
@@ -28,7 +27,6 @@ public class SmallBoardContainer extends JPanel {
         clearHighlight();
         setBackground(Color.WHITE);
         hasBigIcon = false;
-        hasBeenResized = true; // used so that the icons are only resized once and then left alone until needed again.
     }
     /**
      * Sets the color of the rim around the SmallBoard to highlight certain boards.
@@ -75,6 +73,9 @@ public class SmallBoardContainer extends JPanel {
         }
         // creates a new image that is scaled up from the image icon
         Image newImage = bigImage.getImage().getScaledInstance(smallBoard.getWidth()-20, smallBoard.getHeight(), Image.SCALE_SMOOTH);
+
+        if (winner == -1)
+            newImage = bigImage.getImage().getScaledInstance(smallBoard.getWidth()-70, smallBoard.getHeight()-50, Image.SCALE_SMOOTH);
         // removes the smallBoard that was added
         if (hasBigIcon) {
             remove(bigIcon);
@@ -100,8 +101,17 @@ public class SmallBoardContainer extends JPanel {
 
     }
 
-    public void setResized(boolean bool) {
-        hasBeenResized = bool;
+    public void resetContainer() {
+        clearHighlight();
+        smallBoard.resetBoard();
+        smallBoard.disable();
+        if (hasBigIcon) {
+            hasBigIcon = false;
+            remove(bigIcon);
+            add(smallBoard, BorderLayout.CENTER);
+            repaint();
+        }
+        
     }
 
 }
