@@ -15,8 +15,6 @@ public class BigBoard extends JPanel implements ActionListener {
     int currentPlayer;
     String gameMode;
     int targetBoardIndex;
-    int AIRandomIndexRow;
-    int AIRandomIndexCol;
     Timer timer;
 
     public BigBoard() {
@@ -43,8 +41,6 @@ public class BigBoard extends JPanel implements ActionListener {
         setVisible(true);
         currentPlayer = 1; // x starts first
         targetBoardIndex = 0;
-        AIRandomIndexRow = 0;
-        AIRandomIndexCol = 0;
         gameMode = "Two Player";
         timer = new Timer(500, this);
     }
@@ -162,12 +158,6 @@ public class BigBoard extends JPanel implements ActionListener {
         System.out.println(currentPlayer);
         if (gameMode.equals("Random AI")) {
             if (currentPlayer == 2) {
-                AIRandomIndexRow = (int) (Math.random() * 3); // gets a random row index
-                AIRandomIndexCol = (int) (Math.random() * 3); // gets a random col index
-                while (smallBoards.get(exeption).getSmallBoard().getBoard()[AIRandomIndexRow][AIRandomIndexCol] != 0) { // if the random coordinate is already full, a new one is chosen
-                    AIRandomIndexRow = (int) (Math.random() * 3); 
-                    AIRandomIndexCol = (int) (Math.random() * 3);
-                }
                 timer.start();
             }
  
@@ -188,7 +178,18 @@ public class BigBoard extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent arg0) {
         // TODO Auto-generated method stub
         // TODO: when the AI plays it still can choose from the finished boards. ADD logic so that when it can choose anywhere, it does not choose from a completed board.
-        smallBoards.get(targetBoardIndex).getSmallBoard().buttonClicked(smallBoards.get(targetBoardIndex).getSmallBoard().getButtons()[AIRandomIndexRow][AIRandomIndexCol]);
+        int randomBoard = targetBoardIndex;
+        while (smallBoards.get(randomBoard).getSmallBoard().isWon()) // this detects of the targetedSmallBoard has been already won
+            randomBoard = (int)(Math.random() * 9); // if it has been one a random clear board is chosen
+
+        int AIRandomIndexRow = (int) (Math.random() * 3); // gets a random row index
+        int AIRandomIndexCol = (int) (Math.random() * 3); // gets a random col index
+        // if the random coordinate is already full, a new one is chosen
+        while (smallBoards.get(randomBoard).getSmallBoard().getBoard()[AIRandomIndexRow][AIRandomIndexCol] != 0) { 
+            AIRandomIndexRow = (int) (Math.random() * 3); 
+            AIRandomIndexCol = (int) (Math.random() * 3);
+        }
+        smallBoards.get(randomBoard).getSmallBoard().buttonClicked(smallBoards.get(randomBoard).getSmallBoard().getButtons()[AIRandomIndexRow][AIRandomIndexCol]);
         timer.stop();
     }
 }

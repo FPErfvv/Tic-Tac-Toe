@@ -111,7 +111,6 @@ public class SmallBoardContainer extends JPanel {
             add(smallBoard, BorderLayout.CENTER);
             repaint();
         }
-        
     }
 
 }
