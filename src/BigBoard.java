@@ -16,8 +16,10 @@ public class BigBoard extends JPanel implements ActionListener {
     String gameMode;
     int targetBoardIndex;
     Timer timer;
+    BigBoardContainer container;
 
-    public BigBoard() {
+    public BigBoard(BigBoardContainer c) {
+        container = c;
         smallBoards = new ArrayList<SmallBoardContainer>();
         /**
          * this loop creates a new 1D arraylist of the small boards it's indexes on the
@@ -65,7 +67,9 @@ public class BigBoard extends JPanel implements ActionListener {
                             .getWinner()
                     && smallBoards.get(i).getSmallBoard().getWinner() == smallBoards.get(i + 2).getSmallBoard()
                             .getWinner()) {
-                return smallBoards.get(i).getSmallBoard().getWinner();
+                int winner = smallBoards.get(i).getSmallBoard().getWinner();
+                container.swapToWin(winner);
+                return winner;
             }
         }
 
@@ -76,21 +80,26 @@ public class BigBoard extends JPanel implements ActionListener {
                             .getWinner()
                     && smallBoards.get(i).getSmallBoard().getWinner() == smallBoards.get(i + 6).getSmallBoard()
                             .getWinner()) {
-                return smallBoards.get(i).getSmallBoard().getWinner();
+                int winner = smallBoards.get(i).getSmallBoard().getWinner();
+                container.swapToWin(winner);
+                return winner;
             }
         }
 
         if (smallBoards.get(0).getSmallBoard().isWon() && smallBoards.get(0).getSmallBoard().getWinner() != -1
                 && smallBoards.get(0).getSmallBoard().getWinner() == smallBoards.get(4).getSmallBoard().getWinner()
                 && smallBoards.get(0).getSmallBoard().getWinner() == smallBoards.get(8).getSmallBoard().getWinner()) {
-
-            return smallBoards.get(0).getSmallBoard().getWinner(); // first diagonal
+            int winner = smallBoards.get(0).getSmallBoard().getWinner(); // first diagonal
+            container.swapToWin(winner);
+            return winner;
         }
 
         if (smallBoards.get(2).getSmallBoard().isWon() && smallBoards.get(2).getSmallBoard().getWinner() != -1
                 && smallBoards.get(2).getSmallBoard().getWinner() == smallBoards.get(4).getSmallBoard().getWinner()
                 && smallBoards.get(2).getSmallBoard().getWinner() == smallBoards.get(6).getSmallBoard().getWinner()) {
-            return smallBoards.get(2).getSmallBoard().getWinner(); // second diagonal
+            int winner = smallBoards.get(2).getSmallBoard().getWinner();
+            container.swapToWin(winner);
+            return winner; // second diagonal
         }
 
         for (SmallBoardContainer board : smallBoards) // checks to see if there are any unwon boards
@@ -99,23 +108,26 @@ public class BigBoard extends JPanel implements ActionListener {
                 return 0;
             }
         }
+        container.swapToWin(-1);
         return -1; // all boards are won but no player has won overall, returns tie
     }
 
     public void startGame(Object m) { // This is the method that starts the game off
         gameMode = (String) m; // this is the mode that the game is in (random AI or two player)
-        smallBoards.get(8).setBigIcon();
+
         for (SmallBoardContainer e : smallBoards) {
+            e.resetContainer();
             e.getSmallBoard().enable();
             e.getSmallBoard().setGameMode(gameMode);
         }
+        currentPlayer = 1;
+        container.reset();
     }
 
     public void stopGame() {
         for (SmallBoardContainer e : smallBoards) {
-            e.resetContainer();
+            e.getSmallBoard().disable();
         }
-        currentPlayer = 1;
     }
 
     public void resizeBigIcons() { // resize the bigIcons of all the boards.

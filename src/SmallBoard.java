@@ -132,7 +132,7 @@ public class SmallBoard extends JPanel implements ActionListener {
         }
         winner();
         bigBoard.checkBigWin(prevClickLocation, currentPlayer);
-        
+        bigBoard.largeWinner();
     }
 
     public void enable() { // sets all the buttons on the board to be clickable

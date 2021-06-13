@@ -104,7 +104,6 @@ public class SmallBoardContainer extends JPanel {
     public void resetContainer() {
         clearHighlight();
         smallBoard.resetBoard();
-        smallBoard.disable();
         if (hasBigIcon) {
             hasBigIcon = false;
             remove(bigIcon);

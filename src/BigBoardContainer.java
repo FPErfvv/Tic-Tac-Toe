@@ -1,8 +1,10 @@
 import java.awt.Color;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -19,7 +21,9 @@ public class BigBoardContainer extends JPanel implements ActionListener {
     JFrame f;
     BigBoard gameBoard;
     JComboBox comboBox;
-
+    JPanel superBigIconPanel;
+    boolean gameFinished;
+    JButton startButton;
     int frameWidth;
     int frameHeight;
 
@@ -35,16 +39,18 @@ public class BigBoardContainer extends JPanel implements ActionListener {
         frameWidth = f.getWidth();
         frameHeight = f.getHeight();
         resizeIterator = 16;
-        gameBoard = new BigBoard();
+        gameBoard = new BigBoard(this);
         gameBoard.setFocusable(true);
         TitlePage instructions = new TitlePage();
         comboBox = cBox;
         add(instructions);
         add(gameBoard);
         sButton.addActionListener(this);
+        startButton = sButton;
         setBackground(Color.WHITE);
         setVisible(true);
         t.start();
+        gameFinished = false;
     }
     /**
      * This is the code that is run when the start/stop button is pressed.
@@ -76,7 +82,6 @@ public class BigBoardContainer extends JPanel implements ActionListener {
             }
         }
         if (resizeIterator < RESIZE_TIME_BUFFER) {
-
             resizeIterator++;
             System.out.println("TEST: " + resizeIterator);
         }
@@ -93,7 +98,7 @@ public class BigBoardContainer extends JPanel implements ActionListener {
 
     public void changePanel(JButton b,JButton s) {
         if (b.getText().equals("Back")) {
-            layout.previous(this);
+            layout.next(this);
             b.setText("Play");
             s.setEnabled(false);
             comboBox.setEnabled(false);
@@ -102,6 +107,40 @@ public class BigBoardContainer extends JPanel implements ActionListener {
             b.setText("Back");
             s.setEnabled(true);
             comboBox.setEnabled(true);
+        }
+    }
+
+    public void swapToWin(int winner) {
+        remove(gameBoard);
+        superBigIconPanel = new JPanel();
+        ImageIcon bigImage = new ImageIcon("src/images/largeX.png");
+        // depending on the winnner, a bigIcon is chosen to display
+        if (winner == 1) {
+            bigImage = new ImageIcon("src/images/largeX.png");
+        } else if (winner == 2) {
+            bigImage = new ImageIcon("src/images/largeO.png");
+        } else if (winner == -1) {
+            bigImage = new ImageIcon("src/images/tie.png");
+        } else {
+            // TODO: code for the tie goes here
+            return;
+        }
+
+        Image newImage = bigImage.getImage().getScaledInstance(this.getHeight()-30, this.getHeight()-30, Image.SCALE_SMOOTH);
+        JLabel superBigIconLabel = new JLabel(new ImageIcon(newImage));
+        superBigIconPanel.add(superBigIconLabel);
+        add(superBigIconPanel);
+        layout.next(this);
+        gameFinished = true;
+        startButton.setText("Start");
+        startButton.setBackground(Color.GREEN);
+    }
+
+    public void reset() {
+        if (gameFinished) {
+            remove(superBigIconPanel);
+            add(gameBoard);
+            layout.next(this);
         }
     }
 }
