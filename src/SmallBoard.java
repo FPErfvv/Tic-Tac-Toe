@@ -93,7 +93,7 @@ public class SmallBoard extends JPanel implements ActionListener {
     }
 
     @Override
-    public void paintComponent(Graphics arg0) {
+    public void paintComponent(Graphics arg0) { // draws the lines for the board. 
         // TODO Auto-generated method stub
         super.paintComponent(arg0);
         arg0.setColor(Color.BLACK);
@@ -126,9 +126,7 @@ public class SmallBoard extends JPanel implements ActionListener {
                     prevClickLocation = count;
                 }
                 count++;
-                System.out.print(board[r][c] + " ");
             }
-            System.out.println();
         }
         winner();
         bigBoard.checkBigWin(prevClickLocation, currentPlayer);
@@ -195,7 +193,6 @@ public class SmallBoard extends JPanel implements ActionListener {
                     winner = board[i][0];
                     won = true;
                     container.setBigIcon();
-                    System.out.println(winner); // debug
                     return winner;
                 }
             }
@@ -207,7 +204,6 @@ public class SmallBoard extends JPanel implements ActionListener {
                     winner = board[0][i];
                     won = true;
                     container.setBigIcon();
-                    System.out.println(winner); // debug
                     return winner;
                 }
             }
@@ -220,7 +216,6 @@ public class SmallBoard extends JPanel implements ActionListener {
                 winner = board[0][0];
                 won = true;
                 container.setBigIcon();
-                System.out.println(winner); // debug
                 return winner;
             }
         }
@@ -232,7 +227,6 @@ public class SmallBoard extends JPanel implements ActionListener {
                 winner = board[0][2];
                 won = true;
                 container.setBigIcon();
-                System.out.println(winner); // debug
                 return winner;
             }
         }
@@ -251,7 +245,6 @@ public class SmallBoard extends JPanel implements ActionListener {
         winner = -1;
         won = true;
         container.setBigIcon();
-        System.out.println(winner); // debug
         return -1;
     }
 
@@ -277,7 +270,7 @@ public class SmallBoard extends JPanel implements ActionListener {
         board = new int[][] {{0,0,0},
                              {0,0,0},
                              {0,0,0}};
-        for (JButton[] bArr : buttons) {
+        for (JButton[] bArr : buttons) { // loops through the buttons and sets them removes all the icons.
             for (JButton b : bArr) {
                 b.setIcon(null);
             }

@@ -156,7 +156,6 @@ public class BigBoard extends JPanel implements ActionListener {
 
             }
         }
-        System.out.println(currentPlayer);
         if (gameMode.equals("Random AI")) {
             if (currentPlayer == 2) {
                 timer.start();

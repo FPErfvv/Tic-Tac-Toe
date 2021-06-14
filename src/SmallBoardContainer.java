@@ -101,7 +101,7 @@ public class SmallBoardContainer extends JPanel {
 
     }
 
-    public void resetContainer() {
+    public void resetContainer() { // used to reset the board and conatiner when the game is played again.
         clearHighlight();
         smallBoard.resetBoard();
         if (hasBigIcon) {

@@ -41,7 +41,7 @@ public class BigBoardContainer extends JPanel implements ActionListener {
         resizeIterator = 16;
         gameBoard = new BigBoard(this);
         gameBoard.setFocusable(true);
-        TitlePage instructions = new TitlePage();
+        TitlePage instructions = new TitlePage(f);
         comboBox = cBox;
         add(instructions);
         add(gameBoard);
@@ -83,7 +83,6 @@ public class BigBoardContainer extends JPanel implements ActionListener {
         }
         if (resizeIterator < RESIZE_TIME_BUFFER) {
             resizeIterator++;
-            System.out.println("TEST: " + resizeIterator);
         }
         if (frameWidth != f.getWidth() || frameHeight != f.getHeight()) {
             setMaximumSize(new Dimension(f.getHeight()-30,f.getHeight()-70));
