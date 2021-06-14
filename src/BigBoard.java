@@ -26,7 +26,7 @@ public class BigBoard extends JPanel implements ActionListener {
          * board are set up like this {0, 1, 2, 3, 4, 5, 6, 7, 8} use this command to
          * highlight a smallBoard: smallBoards.get(index).setColor(Color.GREEN);
          */
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) { //adds small boards to big board in a way that makes the numbering consistant with small boards
             for (int j = 0; j < 3; j++) {
                 smallBoards.add(new SmallBoardContainer(this));
             }
@@ -45,17 +45,6 @@ public class BigBoard extends JPanel implements ActionListener {
         targetBoardIndex = 0;
         gameMode = "Two Player";
         timer = new Timer(500, this);
-    }
-
-    public void move() // consolidates a move, im not sure about some of the internals you did cattail
-                       // so ill have to finish this with you, this is just an outline
-    {
-        // locks/unlocks relevant tiles
-        // changes tile based on player click
-        // calls .winner() and determines if the board is complete, acts accordingly
-        // calls .largeWinner() to see if the game is over
-        // changes player
-
     }
 
     public int largeWinner() // returns 0 if no winner, 1 if 1 won, 2 if 2 won, -1 if tie
@@ -124,7 +113,7 @@ public class BigBoard extends JPanel implements ActionListener {
         container.reset();
     }
 
-    public void stopGame() {
+    public void stopGame() { // stops game by locking every board
         for (SmallBoardContainer e : smallBoards) {
             e.getSmallBoard().disable();
         }
@@ -146,7 +135,7 @@ public class BigBoard extends JPanel implements ActionListener {
 
     }
 
-    public void lockAllBoards(int exeption) {
+    public void lockAllBoards(int exeption) { // locks all but one board, unless the selected board is already won, in which case unlocks all
         resetHighlight();
         if (smallBoards.get(exeption).getSmallBoard().isWon()) { // if the whole smallBoard has been won, the whole
                                                                  // board is enabled
@@ -176,7 +165,7 @@ public class BigBoard extends JPanel implements ActionListener {
         }
     }
 
-    public void resetHighlight() {
+    public void resetHighlight() { // clears highlight from all boards
         for (SmallBoardContainer e : smallBoards) {
             e.clearHighlight();
         }
