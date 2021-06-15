@@ -8,15 +8,15 @@ import java.awt.event.ActionListener;
 
 public class BigBoard extends JPanel implements ActionListener {
 
-    GridLayout grid;
+    private GridLayout grid;
 
-    ArrayList<SmallBoardContainer> smallBoards;
+    private ArrayList<SmallBoardContainer> smallBoards;
 
-    int currentPlayer;
-    String gameMode;
-    int targetBoardIndex;
-    Timer timer;
-    BigBoardContainer container;
+    private int currentPlayer;
+    private String gameMode;
+    private int targetBoardIndex;
+    private Timer timer;
+    private BigBoardContainer container;
 
     public BigBoard(BigBoardContainer c) {
         container = c;

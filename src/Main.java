@@ -11,12 +11,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Main extends JFrame implements ActionListener {
-    BigBoardContainer game;
-    JButton play;
-    JComboBox options;
-    JButton startButton;
-    JPanel controlBoard;
-
+    private BigBoardContainer game;
+    private JButton play;
+    private JComboBox options;
+    private JButton startButton;
+    private JPanel controlBoard;
+    
     public Main() {
         super("Fred Probst and Stefan's Nested Tic-Tac-Toe");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

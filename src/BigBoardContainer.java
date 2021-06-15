@@ -16,16 +16,16 @@ import java.awt.event.ActionListener;
 
 
 public class BigBoardContainer extends JPanel implements ActionListener {
-    CardLayout layout;
-    Timer t;
-    JFrame f;
-    BigBoard gameBoard;
-    JComboBox comboBox;
-    JPanel superBigIconPanel;
-    boolean gameFinished;
-    JButton startButton;
-    int frameWidth;
-    int frameHeight;
+    private CardLayout layout;
+    private Timer t;
+    private JFrame f;
+    private BigBoard gameBoard;
+    private JComboBox comboBox;
+    private JPanel superBigIconPanel;
+    private boolean gameFinished;
+    private JButton startButton;
+    private int frameWidth;
+    private int frameHeight;
 
     final int RESIZE_TIME_BUFFER = 3;
     int resizeIterator; 

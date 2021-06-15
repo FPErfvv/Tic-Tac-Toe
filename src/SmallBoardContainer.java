@@ -4,13 +4,14 @@ import javax.swing.JPanel;
 import java.awt.*;
 
 public class SmallBoardContainer extends JPanel {
-    JPanel fillLeft;
-    JPanel fillRight;
-    JPanel fillTop;
-    JPanel fillBottom;
-    SmallBoard smallBoard;
-    JLabel bigIcon;
-    boolean hasBigIcon;
+    private JPanel fillLeft;
+    private JPanel fillRight;
+    private JPanel fillTop;
+    private JPanel fillBottom;
+    private SmallBoard smallBoard;
+    private JLabel bigIcon;
+    private boolean hasBigIcon;
+    
     public SmallBoardContainer(BigBoard b) {
         setLayout(new BorderLayout());
         fillLeft = new JPanel();

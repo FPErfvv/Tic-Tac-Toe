@@ -4,40 +4,40 @@ import javax.swing.JPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Point;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 
 public class SmallBoard extends JPanel implements ActionListener {
-    int[][] board;
-    JButton[][] buttons;
-    boolean isFilled;
-    boolean isActive;
-    boolean won; // .winner() must be called after every move to update these values as of now
-    int winner; // 0 if no winner, 1 if 1 won, 2 if 2 won, -1 if tie
-    GridLayout grid;
+    private int[][] board;
+    private JButton[][] buttons;
+    private boolean isFilled;
+    private boolean isActive;
+    private boolean won; // .winner() must be called after every move to update these values as of now
+    private int winner; // 0 if no winner, 1 if 1 won, 2 if 2 won, -1 if tie
+    private GridLayout grid;
 
-    JButton one;
-    JButton two;
-    JButton three;
-    JButton four;
-    JButton five;
-    JButton six;
-    JButton seven;
-    JButton eight;
-    JButton nine;
+    private JButton one;
+    private JButton two;
+    private JButton three;
+    private JButton four;
+    private JButton five;
+    private JButton six;
+    private JButton seven;
+    private JButton eight;
+    private JButton nine;
 
-    ImageIcon x;
-    ImageIcon o;
+    private ImageIcon x;
+    private ImageIcon o;
 
-    int currentPlayer;
-    int prevClickLocation;
+    private int currentPlayer;
+    private int prevClickLocation;
 
-    SmallBoardContainer container;
-    BigBoard bigBoard;
+    private SmallBoardContainer container;
+    private BigBoard bigBoard;
 
-    String gameMode;
+    private String gameMode;
 
     public SmallBoard(SmallBoardContainer c, BigBoard bigBoard) {
         // the image that is placed when the player is x
